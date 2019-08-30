@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="ui-fluid">
+
+            <p:growl id="errorpesan" autoUpdate="true" showDetail="true" life="3500"/>
+            <h2 align="center">Data Karyawan</h2>
+            <p:separator/>
+            <h:form>
+                <p:commandButton value="input data baru" actionListener="#{temployBean.prosesdataTemployee(event)}" 
+                                 oncomplete="PF('dialoginputdata').show();" update=":inputdataemployee"/>
+            </h:form><p:separator/>
+
+            <p:dialog id="dlginputdata" widgetVar="dialoginputdata" style="font-size: 14px"
+                      resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                <h:form id="inputdataemployee" >
+                    <p:panelGrid columns="2" style="margin: 0 auto;">
+                        <f:facet name="header">
+                            <p:column>FORM INPUT DATA</p:column>
+                        </f:facet>
+                        <p:outputLabel value="nama"/>
+                        <p:inputText value="#{temployBean.temp.nama}" required="true"
+                                     requiredMessage="inputan nama belum di isi"/>
+                        <p:outputLabel value="alamat"/>
+                        <p:inputText value="#{temployBean.temp.alamat}" required="true"
+                                     requiredMessage="inputan alamat belum di isi"/>
+                        <p:outputLabel value="nama provinsi"/>
+                        <p:selectOneMenu id="prov" value="#{temployBean.temp.tprov.idprovinsi}" required="true"
+                                         requiredMessage="silahkan pilih pilihan provinsi nya"> 
+                            <f:selectItem itemLabel="= provinsi ="/>
+                            <f:selectItems value="#{temployBean.listprov}"/>
+                            <f:ajax execute="prov" render="kantor"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="nama kantor"/>
+                        <p:selectOneMenu id="kantor" value="#{temployBean.temp.tkantor.idkantor}" required="true"
+                                         requiredMessage="silahkan pilih pilihan kantor nya"> 
+                            <f:selectItem itemLabel="= kantor ="/>
+                            <f:selectItems value="#{temployBean.listkantor}"/>
+                            <f:ajax execute="kantor" render="kota"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="nama kota"/>
+                        <p:selectOneMenu id="kota" value="#{temployBean.temp.tkota.idkota}" required="true"
+                                         requiredMessage="silahkan pilih pilihan kota nya"> 
+                            <f:selectItem itemLabel="= kota ="/>
+                            <f:selectItems value="#{temployBean.listkota}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="kode area"/>
+                        <p:inputText value="#{temployBean.temp.kodearea}" required="true"
+                                     requiredMessage="inputan kode area belum di isi"/>
+                        <p:outputLabel value="telepon"/>
+                        <p:inputText value="#{temployBean.temp.nope}" required="true"
+                                     requiredMessage="inputan no telepon belum di isi"/>
+                        <p:commandButton value="simpan data" actionListener="#{temployBean.savedata()}"
+                                         update=":formtabeltemployee:tabelemployee :inputdataemployee"
+                                         oncomplete="PF('dialoginputdata').hide();"/>
+                        <p:commandButton value="Cancel" action="#{temployBean.gakjadiinput()}"
+                                         update=":inputdataemployee" immediate="true"
+                                         onclick="PF('dialoginputdata').hide();"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+
+            <h:form id="formtabeltemployee">
+                <p:dataTable id="tabelemployee" reflow="true" value="#{temployBean.templist}" var="tbl"
+                             paginator="true" rows="10" paginatorTemplate="{CurrentPageReport}
+                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}" 
+                             rowsPerPageTemplate="10,20,30" style="font-size: 14px">
+                    <p:column headerText="Id No" filterBy="#{tbl.id}">
+                        <h:outputText value="#{tbl.id}"/>
+                    </p:column>
+                    <p:column headerText="Nama">
+                        <h:outputText value="#{tbl.nama}"/>
+                    </p:column>
+                    <p:column headerText="Alamat">
+                        <h:outputText value="#{tbl.alamat}"/>
+                    </p:column>
+                    <p:column headerText="Provinsi" filterBy="#{tbl.tprov.namaprovinsi}">
+                        <h:outputText value="#{tbl.tprov.namaprovinsi}"/>
+                    </p:column>
+                    <p:column headerText="Kantor" filterBy="#{tbl.tkantor.namakantor}">
+                        <h:outputText value="#{tbl.tkantor.namakantor}"/>
+                    </p:column>
+                    <p:column headerText="Kota" filterBy="#{tbl.tkota.namakota}">
+                        <h:outputText value="#{tbl.tkota.namakota}"/>
+                    </p:column>
+                    <p:column headerText="Kode Area">
+                        <h:outputText value="#{tbl.kodearea}"/>
+                    </p:column>
+                    <p:column headerText="No Handphone">
+                        <h:outputText value="#{tbl.nope}"/>
+                    </p:column>
+                    <p:column headerText="update data">
+                        <p:commandButton value="edit data" oncomplete="PF('dialogeditdata').show();"
+                                         update=":editdata">
+                            <f:setPropertyActionListener target="#{temployBean.temp}" value="#{tbl}"/>
+                        </p:commandButton>
+                    </p:column>
+                    <p:column headerText="hapus data">
+                        <p:commandButton value="hapus data" oncomplete="PF('dialogapusdata').show();"
+                                         update=":apusdata">
+                            <f:setPropertyActionListener target="#{temployBean.temp}" value="#{tbl}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <p:separator/>
+            <h:form>
+                <p:commandButton value="input data baru" 
+                                 oncomplete="PF('dialoginputdata').show();" update=":inputdataemployee"/>
+            </h:form>
+            <p:separator/>
+
+            <h:form id="editdata" style="font-size: 14px">
+                <p:dialog id="dlgeditdata" widgetVar="dialogeditdata" 
+                          resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                    <p:panelGrid columns="2" style="margin: 0 auto;">
+                        <f:facet name="header">
+                            <p:column>FORM UPDATE DATA</p:column>
+                        </f:facet>
+                        <p:outputLabel value="nama"/>
+                        <p:inputText value="#{temployBean.temp.nama}" required="true"
+                                     requiredMessage="inputan nama belum di isi"/>
+                        <p:outputLabel value="alamat"/>
+                        <p:inputText value="#{temployBean.temp.alamat}" required="true"
+                                     requiredMessage="inputan alamat belum di isi"/>
+                        <p:outputLabel value="nama provinsi"/>
+                        <p:selectOneMenu id="prov" value="#{temployBean.temp.tprov.idprovinsi}" required="true"
+                                         requiredMessage="silahkan pilih pilihan provinsi nya"> 
+                            <f:selectItem itemLabel="= provinsi ="/>
+                            <f:selectItems value="#{temployBean.listprov}"/>
+                            <f:ajax execute="prov" render="kantor"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="nama kantor"/>
+                        <p:selectOneMenu id="kantor" value="#{temployBean.temp.tkantor.idkantor}" required="true"
+                                         requiredMessage="silahkan pilih pilihan kantor nya"> 
+                            <f:selectItem itemLabel="= kantor ="/>
+                            <f:selectItems value="#{temployBean.listkantor}"/>
+                            <f:ajax execute="kantor" render="kota"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="nama kota"/>
+                        <p:selectOneMenu id="kota" value="#{temployBean.temp.tkota.idkota}" required="true"
+                                         requiredMessage="silahkan pilih pilihan kota nya"> 
+                            <f:selectItem itemLabel="= kota ="/>
+                            <f:selectItems value="#{temployBean.listkota}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="kode area"/>
+                        <p:inputText value="#{temployBean.temp.kodearea}" required="true"
+                                     requiredMessage="inputan kode area belum di isi"/>
+                        <p:outputLabel value="telepon"/>
+                        <p:inputText value="#{temployBean.temp.nope}" required="true"
+                                     requiredMessage="inputan no telepon belum di isi"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" style="margin: 0 auto;">
+                        <p:commandButton value="simpan data" actionListener="#{temployBean.editdata()}"
+                                         update=":formtabeltemployee:tabelemployee" oncomplete="PF('dialogeditdata').hide();"/>
+                        <p:commandButton value="Cancel" onclick="PF('dialogeditdata').hide();"
+                                         immediate="true"/>
+                    </p:panelGrid>
+                </p:dialog>
+            </h:form>
+
+            <h:form id="apusdata" style="font-size: 14px">
+                <p:dialog id="dlgapusdata" widgetVar="dialogapusdata" 
+                          resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                    <f:facet name="header">
+                        <p:column>Dialog Hapus Data</p:column>
+                    </f:facet>
+                    <h:outputText value="YAKIN MAU HAPUS DATA-NYA!!!"/><br/><br/>
+                    <p:panelGrid columns="2" style="margin: 0 auto;">
+                        <p:commandButton value="hapus data" actionListener="#{temployBean.apusdata()}"
+                                         update=":formtabeltemployee:tabelemployee" oncomplete="PF('dialogapusdata').hide();"/>
+                        <p:commandButton value="Cancel" onclick="PF('dialogapusdata').hide();"/>
+                    </p:panelGrid>
+                </p:dialog>
+            </h:form>
+
+        </div>
+    </h:body>
+</html>
+

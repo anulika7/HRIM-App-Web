@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 9, 2018 1:46:24 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Tprov" table="tprov" catalog="demployee" optimistic-lock="version">
+        <id name="idprovinsi" type="java.lang.Integer">
+            <column name="idprovinsi" />
+            <generator class="identity" />
+        </id>
+        <property name="namaprovinsi" type="string">
+            <column name="namaprovinsi" length="50" not-null="true" />
+        </property>
+        <set name="temployees" table="temployee" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idprovinsi" not-null="true" />
+            </key>
+            <one-to-many class="model.Temployee" />
+        </set>
+        <set name="tkantors" table="tkantor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idprov" not-null="true" />
+            </key>
+            <one-to-many class="model.Tkantor" />
+        </set>
+    </class>
+</hibernate-mapping>

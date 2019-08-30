@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 9, 2018 1:46:24 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Temployee" table="temployee" catalog="demployee" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tkantor" class="model.Tkantor" fetch="select">
+            <column name="idkantor" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tkota" class="model.Tkota" fetch="select">
+            <column name="idkota" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tprov" class="model.Tprov" fetch="select">
+            <column name="idprovinsi" not-null="true" />
+        </many-to-one>
+        <property name="nama" type="string">
+            <column name="nama" length="50" not-null="true" />
+        </property>
+        <property name="alamat" type="string">
+            <column name="alamat" length="150" not-null="true" />
+        </property>
+        <property name="kodearea" type="string">
+            <column name="kodearea" length="5" not-null="true" />
+        </property>
+        <property name="nope" type="string">
+            <column name="nope" length="12" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

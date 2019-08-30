@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 9, 2018 1:46:24 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Tkantor" table="tkantor" catalog="demployee" optimistic-lock="version">
+        <id name="idkantor" type="java.lang.Integer">
+            <column name="idkantor" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tprov" class="model.Tprov" fetch="select">
+            <column name="idprov" not-null="true" />
+        </many-to-one>
+        <property name="namakantor" type="string">
+            <column name="namakantor" length="50" not-null="true" />
+        </property>
+        <set name="temployees" table="temployee" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idkantor" not-null="true" />
+            </key>
+            <one-to-many class="model.Temployee" />
+        </set>
+        <set name="tkotas" table="tkota" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idkantor" not-null="true" />
+            </key>
+            <one-to-many class="model.Tkota" />
+        </set>
+    </class>
+</hibernate-mapping>
