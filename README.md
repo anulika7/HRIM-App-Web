@@ -1,6 +1,7 @@
 # HRIM-App-Web
 HRIM-App Web JEE sederhana dengan JSF, Primefaces, Hibernate dan Mysql
 Aplikasi dengan bahasa pemograman Java
+Java Responsive Web (Java Server Faces dengan integrasi Primefaces, Bootstrap)
 Jika ingin mencaoba di perangkat anda 
 Pilih folder dist dan ambil file dengan ekstensi war
 Pastikan perangkat anda sudah terinstall JDK versi 8
