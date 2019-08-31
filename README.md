@@ -1,6 +1,6 @@
 # HRIM-App-Web
 HRIM-App Web JEE sederhana dengan JSF, Primefaces, Hibernate dan Mysql
-Aplikasi dengan bahasa pemograman Java
+Aplikasi dengan bahasa pemograman Java.
 Java Web (Java Server Faces dengan integrasi Mysql, Primefaces dan Hibernate ORM)
 Jika ingin mencaoba di perangkat anda 
 Pilih folder dist dan ambil file dengan ekstensi war
